@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <unistd.h>
-#include <conio.h>
-#include <windows.h>
 #include <time.h>
 
 // ekran
@@ -39,6 +37,12 @@ int randomHeight(){ // generise random visinu bloka u rejndzu [1, HEIGHT - HOLE 
 int sudar(){
     return (block1x < birdX && birdX <= block1x + BLOCK_WIDTH && (birdY < block1Top_height || birdY >= block1Top_height + HOLE))
             || (block2x < birdX && birdX <= block2x + BLOCK_WIDTH && (birdY < block2Top_height || birdY >=  block2Top_height + HOLE));
+}
+
+int max(int a, int b){
+    if(a>b)
+        return a;
+    return b;
 }
 
 void render(){
