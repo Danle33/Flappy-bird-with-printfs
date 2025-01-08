@@ -45,12 +45,21 @@ int max(int a, int b){
     return b;
 }
 
+void stop(){
+    moveCursor(0, HEIGHT);
+    printf("Crkosi, skor ti je %d\n", score);
+    usleep(2000*1000);
+    exit(0);
+}
+
+int invalidPosition(){
+    return birdY >= HEIGHT || birdY < 0 || sudar();
+}
+
 void render(){
 
-    if (birdY >= HEIGHT || birdY < 0 || sudar()){ // ako ptica izadje van ekrana ili se slupa
-        moveCursor(0, HEIGHT);
-        printf("Crkosi, skor ti je %d\n", score);
-        exit(0);
+    if (invalidPosition()){ // ako ptica izadje van ekrana ili se slupa
+        stop();
     }
 
     // inkrement skora
@@ -140,7 +149,16 @@ void render(){
 
     // pritisnuto nesto -> skoci za 5
     if((key) != NULL){
-        birdY -= JUMP;
+        for(int jump=1; jump<=JUMP; ++jump){
+            birdY -= jump;
+            if(invalidPosition()){
+                moveCursor(birdX, birdY);
+                printf("#");
+                stop();
+            }
+
+        }
+        //birdY -= JUMP;
         (key) = NULL;
     }
     else
@@ -165,7 +183,7 @@ int main()
         }
         render();
         moveCursor(0,0);
-        usleep(120*1000); // cekaj 150 ms
+        usleep(120*1000); // cekaj 120 ms
     }
     return 0;
 }
